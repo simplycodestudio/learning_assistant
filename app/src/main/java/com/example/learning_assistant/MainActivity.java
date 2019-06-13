@@ -2,6 +2,7 @@ package com.example.learning_assistant;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    MediaPlayer player;
 
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean czasNaPrzerwe;
     long millisInput_learn;
     long millisInput_break;
+    int mnoznikCzasuNauki;
+    String input_learn;
+    String input_break;
 
 
 
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             String input_learn = mEditTextInput_Learn.getText().toString();
+             input_learn = mEditTextInput_Learn.getText().toString();
 
              if (input_learn.length() ==0)
              {
@@ -83,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                  return;
              }
 
-             String input_break = mEditTextInput_Break.getText().toString();
+             input_break = mEditTextInput_Break.getText().toString();
              if (input_break.length() ==0)
              {
                  Toast.makeText(MainActivity.this, "Nie odpoczywasz?", Toast.LENGTH_LONG).show();
@@ -117,11 +122,9 @@ public class MainActivity extends AppCompatActivity {
         else
         {
             setTime(millisInput_learn);
+            mnoznikCzasuNauki++;
 
         }
-
-
-
 
     }
 
@@ -157,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     dialogNauki();
                 }
+                alarm_start();
             }
         }.start();
 
@@ -244,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
+        alarm_stop();
     }
 
     @Override
@@ -291,12 +296,14 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Tak",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        alarm_stop();
                         PrzerwaZPowtorka();
                     }
                 })
                 .setNegativeButton("Odpoczywam",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        alarm_stop();
                         PrzerwaBezPowtorki();
                     }
                 }) ;
@@ -312,18 +319,39 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         TargetNauka();
+                        alarm_stop();
                     }
                 })
                 .setNegativeButton("Sesja poczeka",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        alarm_stop();
+                        dialogLacznyCzasNauki();
                         return;
+
                     }
                 }) ;
         AlertDialog alert = a_builder.create();
         alert.setTitle("Odpoczynek");
         alert.show();
     }
+    private void dialogLacznyCzasNauki() {
+        int calkowityczas = mnoznikCzasuNauki*Integer.parseInt(input_learn);
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(MainActivity.this);
+
+        a_builder.setMessage("Twój czas nauki wyniósł " + calkowityczas + "minutę")
+                .setCancelable(false)
+                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Odpoczynek");
+        alert.show();
+    }
+
 
     private void TargetNauka() {
         czasNaPrzerwe = false;
@@ -346,6 +374,28 @@ public class MainActivity extends AppCompatActivity {
         millisInput_break = millisInput_break*2;
         przelaczTimer();
         startTimer();
+
+    }
+
+    public void alarm_start() {
+        if(player == null) {
+            player = MediaPlayer.create(this, R.raw.iphone_alarm);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    alarm_stop();
+                }
+            });
+        }
+        player.start();
+    }
+
+    public void alarm_stop(){
+        if (player!=null)
+        {
+            player.release();
+            player = null;
+        }
 
     }
 

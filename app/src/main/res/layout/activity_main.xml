@@ -16,7 +16,8 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="25dp"
-        android:hint="interwał nauki..." />
+        android:hint="interwał nauki..."
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/break_interval"
@@ -28,7 +29,8 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="80dp"
-        android:hint="interwał przerwy" />
+        android:hint="interwał przerwy"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/btn_set_time"
