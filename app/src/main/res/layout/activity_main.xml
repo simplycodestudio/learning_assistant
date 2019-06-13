@@ -4,44 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/material_orangeA400">
+
 
     <EditText
         android:id="@+id/learn_interval"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_above="@+id/break_interval"
-        android:layout_alignStart="@+id/text_view_countdown"
-        android:layout_alignEnd="@+id/text_view_countdown"
+
+        android:layout_alignStart="@+id/break_interval"
+        android:layout_alignEnd="@+id/break_interval"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btn_background"
         android:hint="interwał nauki..."
-        android:inputType="number" />
+        android:textAlignment="center"
+        android:inputType="number"
+        android:textColorHint="@color/material_white_semi_transp"
+        android:textSize="13sp" />
+
 
     <EditText
         android:id="@+id/break_interval"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_above="@+id/text_view_countdown"
         android:layout_alignStart="@+id/text_view_countdown"
         android:layout_alignEnd="@+id/text_view_countdown"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="80dp"
-        android:hint="interwał przerwy"
-        android:inputType="number" />
+        android:layout_marginStart="-2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="123dp"
+        android:background="@drawable/btn_background"
+        android:hint="interwał przerwy..."
+        android:inputType="number"
+        android:textColorHint="@color/material_white_semi_transp"
+        android:textAlignment="center"
+        android:textSize="13sp" />
 
     <Button
         android:id="@+id/btn_set_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/text_view_countdown"
-        android:layout_alignStart="@+id/break_interval"
-        android:layout_alignEnd="@+id/break_interval"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="20dp"
+        android:layout_alignStart="@+id/text_view_countdown"
+        android:layout_alignEnd="@+id/text_view_countdown"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="48dp"
         android:text="ustaw" />
     <TextView
         android:id="@+id/text_view_countdown"
