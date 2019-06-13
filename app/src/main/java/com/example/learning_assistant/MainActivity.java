@@ -1,7 +1,9 @@
 package com.example.learning_assistant;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mButtonStartPause;
     private Button mButtonReset;
     private EditText mEditTextInput_Learn;
-    private EditText mEditTimeBreak;
+    private EditText mEditTextInput_Break;
     private Button setTimeBtn;
 
     private CountDownTimer mCountDownTimer;
@@ -29,15 +31,19 @@ public class MainActivity extends AppCompatActivity {
     private long mStartTimeInMillis;
     private long mTimeLeftInMillis;
     private long mEndTime;
+    private boolean czasNaPrzerwe;
+    long millisInput_learn;
+    long millisInput_break;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mTextViewCountDown = findViewById(R.id.text_view_countdown);
         mEditTextInput_Learn = findViewById(R.id.learn_interval);
-        mEditTimeBreak = findViewById(R.id.break_interval);
+        mEditTextInput_Break = findViewById(R.id.break_interval);
         setTimeBtn = findViewById(R.id.btn_set_time);
         mButtonStartPause = findViewById(R.id.button_start_pause);
         mButtonReset = findViewById(R.id.button_reset);
@@ -64,31 +70,69 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
              String input_learn = mEditTextInput_Learn.getText().toString();
-             String input_break = mEditTimeBreak.getText().toString();
+
              if (input_learn.length() ==0)
              {
                  Toast.makeText(MainActivity.this, "Ale z Ciebie obibok", Toast.LENGTH_LONG).show();
                  return;
              }
-             long millisInput = Long.parseLong(input_learn) * 60000;
-             if (millisInput ==0)
+             millisInput_learn = Long.parseLong(input_learn) * 60000;
+             if (millisInput_learn ==0)
              {
                  Toast.makeText(MainActivity.this, "Wprowadz wlasciwe dane", Toast.LENGTH_LONG).show();
                  return;
              }
 
-             setTime(millisInput);
+             String input_break = mEditTextInput_Break.getText().toString();
+             if (input_break.length() ==0)
+             {
+                 Toast.makeText(MainActivity.this, "Nie odpoczywasz?", Toast.LENGTH_LONG).show();
+                 return;
+             }
+             millisInput_break = Long.parseLong(input_break) * 60000;
+             if (millisInput_break ==0)
+             {
+                    Toast.makeText(MainActivity.this, "Wprowadz wlasciwe dane", Toast.LENGTH_LONG).show();
+                    return;
+             }
+           // trzeba to przeniesc w przelaczTimer
+             przelaczTimer();
              mEditTextInput_Learn.setText("");
+             mEditTextInput_Break.setText("");
+
             }
+
         });
     }
 
+
+    public void przelaczTimer() {
+
+
+        if (czasNaPrzerwe)
+        {
+            setTime(millisInput_break);
+
+        }
+        else
+        {
+            setTime(millisInput_learn);
+
+        }
+
+
+
+
+    }
+
     private void setTime(long milliseconds) {
+
         mStartTimeInMillis = milliseconds;
         resetTimer();
         closeKeyboard();
 
     }
+
 
     private void startTimer() {
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis;
@@ -104,6 +148,15 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 mTimerRunning = false;
                 updateWatchInterface();
+               // Toast.makeText(MainActivity.this, "koneq", Toast.LENGTH_LONG).show();
+                if (!czasNaPrzerwe)
+                {
+                    dialogPrzerwy();
+                }
+                else if(czasNaPrzerwe)
+                {
+                    dialogNauki();
+                }
             }
         }.start();
 
@@ -149,11 +202,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateWatchInterface() {
         if (mTimerRunning) {
+            mEditTextInput_Break.setVisibility(View.INVISIBLE);
             setTimeBtn.setVisibility(View.INVISIBLE);
             mEditTextInput_Learn.setVisibility(View.INVISIBLE);
             mButtonReset.setVisibility(View.INVISIBLE);
             mButtonStartPause.setText("Pause");
         } else {
+            mEditTextInput_Break.setVisibility(View.VISIBLE);
             setTimeBtn.setVisibility(View.VISIBLE);
             mEditTextInput_Learn.setVisibility(View.VISIBLE);
             mButtonStartPause.setText("Start");
@@ -213,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 mTimerRunning = false;
                 updateCountDownText();
                 updateWatchInterface();
-                Toast.makeText(MainActivity.this, "koneq", Toast.LENGTH_LONG).show();
+
             } else {
                 startTimer();
             }
@@ -228,4 +283,70 @@ public class MainActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    private void dialogPrzerwy() {
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(MainActivity.this);
+        a_builder.setMessage("Szybka powtórka dotychczasowego materiału? Czas Twojej przerwy zostanie podwojony")
+                .setCancelable(false)
+                .setPositiveButton("Tak",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PrzerwaZPowtorka();
+                    }
+                })
+                .setNegativeButton("Odpoczywam",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PrzerwaBezPowtorki();
+                    }
+                }) ;
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Odpoczynek");
+        alert.show();
+    }
+    private void dialogNauki() {
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(MainActivity.this);
+        a_builder.setMessage("Dobrze Ci idzie, uczymy się dalej?")
+                .setCancelable(false)
+                .setPositiveButton("Tak",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TargetNauka();
+                    }
+                })
+                .setNegativeButton("Sesja poczeka",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                }) ;
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Odpoczynek");
+        alert.show();
+    }
+
+    private void TargetNauka() {
+        czasNaPrzerwe = false;
+        resetTimer();
+        przelaczTimer();
+        startTimer();
+    }
+
+    private void PrzerwaBezPowtorki() {
+        czasNaPrzerwe = true;
+        resetTimer();
+        przelaczTimer();
+        startTimer();
+
+    }
+
+    private void PrzerwaZPowtorka() {
+        czasNaPrzerwe = true;
+        resetTimer();
+        millisInput_break = millisInput_break*2;
+        przelaczTimer();
+        startTimer();
+
+    }
+
 }
