@@ -2,6 +2,7 @@ package com.example.learning_assistant;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
+import com.shashank.sony.fancydialoglib.Icon;
 
 import java.util.Locale;
 
@@ -210,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             setTimeBtn.setVisibility(View.INVISIBLE);
             mEditTextInput_Learn.setVisibility(View.INVISIBLE);
             mButtonReset.setVisibility(View.INVISIBLE);
-            mButtonStartPause.setText("Pause");
+            mButtonStartPause.setText("Pauza");
         } else {
             mEditTextInput_Break.setVisibility(View.VISIBLE);
             setTimeBtn.setVisibility(View.VISIBLE);
@@ -290,50 +296,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void dialogPrzerwy() {
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(MainActivity.this);
-        a_builder.setMessage("Szybka powtórka dotychczasowego materiału? Czas Twojej przerwy zostanie podwojony")
-                .setCancelable(false)
-                .setPositiveButton("Tak",new DialogInterface.OnClickListener() {
+        FancyAlertDialog.Builder f_builder = new FancyAlertDialog.Builder(MainActivity.this);
+        f_builder.setTitle("Czas na odpoczynek")
+                 .setBackgroundColor(Color.parseColor("#303F9F"))
+                 .setMessage("Szybka powtórka \ndotychczasowego materiału? \nCzas Twojej przerwy zostanie podwojony")
+                 .setNegativeBtnText("Odpoczywam")
+                 .setPositiveBtnBackground(Color.parseColor("#ff2e7d32"))
+                 .setPositiveBtnText("Tak")
+                 .setNegativeBtnBackground(Color.parseColor("#ff0277bd"))
+                 .setAnimation(Animation.POP)
+                 .isCancellable(true)
+                 .setIcon(R.drawable.information, Icon.Visible)
+                 .OnPositiveClicked(new FancyAlertDialogListener() {
+                     @Override
+                     public void OnClick() {
+                         alarm_stop();
+                         PrzerwaZPowtorka();
+                     }
+                 })
+                .OnNegativeClicked(new FancyAlertDialogListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        alarm_stop();
-                        PrzerwaZPowtorka();
-                    }
-                })
-                .setNegativeButton("Odpoczywam",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void OnClick() {
                         alarm_stop();
                         PrzerwaBezPowtorki();
                     }
-                }) ;
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Odpoczynek");
-        alert.show();
+                }).build();
+
     }
     private void dialogNauki() {
-        AlertDialog.Builder a_builder = new AlertDialog.Builder(MainActivity.this);
-        a_builder.setMessage("Dobrze Ci idzie, uczymy się dalej?")
-                .setCancelable(false)
-                .setPositiveButton("Tak",new DialogInterface.OnClickListener() {
+        FancyAlertDialog.Builder f_builder = new FancyAlertDialog.Builder(MainActivity.this);
+        f_builder.setTitle("Dobrze Ci idzie")
+                .setBackgroundColor(Color.parseColor("#ff2e7d32"))
+                .setMessage("Uczysz się dalej?")
+                .setNegativeBtnText("Sesja poczeka")
+                .setPositiveBtnBackground(Color.parseColor("#ff2e7d32"))
+                .setPositiveBtnText("Tak")
+                .setNegativeBtnBackground(Color.parseColor("#ffff1744"))
+                .setAnimation(Animation.POP)
+                .isCancellable(true)
+                .setIcon(R.drawable.tick, Icon.Visible)
+                .OnPositiveClicked(new FancyAlertDialogListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void OnClick() {
                         TargetNauka();
                         alarm_stop();
                     }
                 })
-                .setNegativeButton("Sesja poczeka",new DialogInterface.OnClickListener() {
+                .OnNegativeClicked(new FancyAlertDialogListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void OnClick() {
                         alarm_stop();
                         dialogLacznyCzasNauki();
-                        return;
-
                     }
-                }) ;
-        AlertDialog alert = a_builder.create();
-        alert.setTitle("Odpoczynek");
-        alert.show();
+                }).build();
+
+
     }
     private void dialogLacznyCzasNauki() {
         int calkowityczas = mnoznikCzasuNauki*Integer.parseInt(input_learn);

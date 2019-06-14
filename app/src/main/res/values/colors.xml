@@ -9,5 +9,7 @@
     <color name="material_black">#ff000000</color>
     <color name="material_white">#ffffffff</color>
     <color name="material_white_semi_transp">#80ffffff</color>
+    <color name="material_red900">#ffb71c1c</color>
+    <color name="material_yellow800">#fff9a825</color>
 
 </resources>
