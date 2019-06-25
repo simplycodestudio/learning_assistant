@@ -1,3 +1,73 @@
 <resources>
-    <string name="app_name">learning_assistant</string>
+    <string name="app_name">LEARNING MOTIVATOR</string>
+    <string name="work_duration">Cykl nauki :</string>
+    <string name="short_break_duration">Cykl krótkiej prerwy :</string>
+    <string name="long_break_duration">Cykl długiej prerwy :</string>
+    <string name="work_duration_key">WORK_DURATION</string>
+    <string name="lba">Rozpocznij długą przerwę po :</string>
+    <string name="set_ringing_volume">Głośność Alarmu :</string>
+
+
+    <string name="short_break_duration_key">SHORT_BREAK_DURATION</string>
+    <string name="long_break_duration_key">LONG_BREAK_DURATION</string>
+    <string name="work_session_count_key">WORK_SESSION_COUNT</string>
+    <string name="task_on_hand_count_key">TASK_ON_HAND_COUNT</string>
+    <string name="start_long_break_after_key">LONG_BREAK_AFTER_DURATION</string>
+    <string-array name="work_duration_array">
+        <item>10 minut</item>
+        <item>15 minut</item>
+        <item>20 minut</item>
+        <item>25 minut</item>
+        <item>30 minut</item>
+        <item>35 minut</item>
+        <item>40 minut</item>
+        <item>45 minut</item>
+        <item>50 minut</item>
+        <item>55 minut</item>
+    </string-array>
+    <string-array name="short_break_duration_array">
+        <item>3 minuty</item>
+        <item>5 minut</item>
+        <item>10 minut</item>
+        <item>15 minut</item>
+    </string-array>
+    <string-array name="start_long_break_after_array">
+        <item>2 cykle</item>
+        <item>3 cykle</item>
+        <item>4 cykle</item>
+        <item>5 cykli</item>
+        <item>6 cykli</item>
+    </string-array>
+    <string-array name="long_break_duration_array">
+        <item>10 minut</item>
+        <item>15 minut</item>
+        <item>20 minut</item>
+        <item>25 minut</item>
+    </string-array>
+    <string name="btn_krotka_przerwa">&#160;Krótka przerwa&#160;</string>
+    <string name="current_task">Current Task</string>
+    <string name="change_task">Change</string>
+    <string name="task_name">Task 1</string>
+    <string name="work_sessions_completed">Work sessions completed</string>
+    <string name="complete_imageview_content_desc">Complete Image</string>
+    <string name="settings_imageview_content_desc">Settings Image</string>
+    <string name="start_tametu">Rozpocznij naukę</string>
+    <string name="cancel_tametu">Zakończ naukę</string>
+    <string name="start_short_break">Krótka przerwa</string>
+    <string name="skip_short_break">Pomiń Krótką przerwę</string>
+    <string name="start_long_break">Długa przerwa</string>
+    <string name="skip_long_break">Pomiń Długą przerwę</string>
+    <string name="skip_break">POMIŃ PRZERWĘ</string>
+    <string name="currently_running_service_type_key">CURRENTLY_RUNNING_SERVICE_TYPE</string>
+    <string name="tametu_completion_alert_message">Gratulacje! Koniec nauki.\n\nCzas na przerwę.</string>
+    <string name="cancel_notification_toast">Przerwij</string>
+    <string name="package_name">com.example.learning_assistant</string>
+    <string name="intro">Dev : <a href="https://github.com/simplycodestudio">Simplycodestudio</a>
+        \n\nWsparcie techniczne : <a href="https://github.com/Dan629pl">Dan629pl</a> \n\nJeśli uważasz aplikację za użyteczną, miło nam będzie jeśli klikniesz <i><b>+</b></i> \nprzy naszych <i><b>umiejętnościach i potwierdzeniach</b></i> na głównej stronie profilu LinkedIn:\n\n<a href="https://www.linkedin.com/in/jacek-lisiecki-a7527b160/">Linkedin Jacek Lisiecki</a> \n\n<a href="https://www.linkedin.com/in/daniel-owczarczyk-8b89a6150/">Linkedin Daniel Owczarczyk</a> \n\nTrenuj swoje umiejętności i nie trać czasu na głupoty! </string>
+    <string name="creation">Students of Google India Udacity Scholarship and NJACK Winter of Code Participants</string>
+    <string name="break_over_notification_title">Koniec Przerwy.</string>
+    <string name="session_over_notification_content_text">Czas na odpoczynek. Wybierz rodzaj przerwy</string>
+    <string name="break_over_notification_content_text">Bierz się do roboty.</string>
+    <string name="tametu_completion_notification_message">Gratulacje! Skończyłeś cykl nauki.</string>
+
 </resources>

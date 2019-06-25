@@ -8,7 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 
 public class Splash extends AppCompatActivity {
 SharedPreferences sharedPreferences;
@@ -34,7 +34,7 @@ Boolean firstTime;
                                              editor.apply();
                                              Intent goMain = new Intent(Splash.this, MainActivity.class);
                                              startActivity(goMain);
-                                             Animatoo.animateFade(Splash.this);
+                                            // Animatoo.animateFade(Splash.this);
                                              finish();
                                          }
                                      },SPLASH_TIME_OUT
